@@ -24,9 +24,9 @@ docker build -t aditi:ansible .
 ##running docker container
 docker run -it --name cont -v /var/run/docker.sock:/var/run/docker.sock aditi:ansible bash 
 
-##create ansible playbook
-mybook.yml
-- hosts: localhost
+##create ansible playbook mybook.yml
+---
+ - hosts: localhost
    tasks:
     - name: Running ten Containers
       shell: sh con.sh
