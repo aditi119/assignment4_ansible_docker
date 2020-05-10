@@ -1,0 +1,37 @@
+## the shell script for running 10 alpine containers
+## con.sh
+#!/bin/bash
+f = 1
+while [ $f -le 10 ]
+do
+docker container run -d --name alp$f alpine fb.com
+f = `expr $f + 1 '
+done
+
+##dockerfile
+
+FROM ubuntu
+MAINTAINER aditi
+RUN apt-get update
+RUN apt-get install docker.io -y
+RUN apt-get install ansible -y
+RUN apt install python3-pip -y
+RUN pip3 install docker
+
+##building docker image
+docker build -t aditi:ansible .
+
+##running docker container
+docker run -it --name cont -v /var/run/docker.sock:/var/run/docker.sock aditi:ansible bash 
+
+##create ansible playbook
+mybook.yml
+- hosts: localhost
+   tasks:
+    - name: Running ten Containers
+      shell: sh con.sh
+      
+##running the playbook
+      ansible-playbook mybook.yml
+##view all the 10 containers
+docker ps -a
